@@ -31,4 +31,21 @@ app.get('/buses', async (req, res) => {
   }
 })
 
+app.get('/stops/:bus/:direction', async (req, res) => {
+  try {
+    let request = { action: 'linestops', lcode: req.params.bus, ldir: req.params.direction };
+
+    let stopsList = (await (await axios.get(STCP_ENDPOINT, { params: request })).data);
+    stopsList = stopsList["records"];
+    
+    res.status(200);
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(stopsList));
+  }
+  catch (error) {
+    res.status(500);
+    res.send(error);
+  }
+})
+
 module.exports.service = serverless(app);
