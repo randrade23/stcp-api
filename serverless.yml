@@ -64,6 +64,7 @@ functions:
     handler: handler.service
     events:
       - http: ANY /
+      - http: 'ANY {proxy+}'
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
