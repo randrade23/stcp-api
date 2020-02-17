@@ -6,7 +6,7 @@ const app = express()
 const bodyParser = require('body-parser');
 const axios = require('axios').default;
 
-const STCP_BUS_LIST_API = "https://www.stcp.pt/pt/itinerarium/callservice.php?action=lineslist&service=1";
+const STCP_ENDPOINT = "https://www.stcp.pt/pt/itinerarium/callservice.php";
 
 app.use(bodyParser.json({ strict: false }));
 
@@ -16,7 +16,9 @@ app.get('/', (req, res) => {
 
 app.get('/buses', async (req, res) => {
   try {
-    let busList = (await (await axios.get(STCP_BUS_LIST_API)).data);
+    let request = { action: 'lineslist', service: '1' };
+
+    let busList = (await (await axios.get(STCP_ENDPOINT, { params: request })).data);
     busList = busList["records"];
     
     res.status(200);
