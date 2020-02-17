@@ -5,9 +5,6 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser');
 const helpers = require('./helpers');
-const axios = require('axios').default;
-
-const STCP_ENDPOINT = "https://www.stcp.pt/pt/itinerarium/callservice.php";
 
 app.use(bodyParser.json({ strict: false }));
 
@@ -17,10 +14,7 @@ app.get('/', (req, res) => {
 
 app.get('/buses', async (req, res) => {
   try {
-    let request = { action: 'lineslist', service: '1' };
-
-    let busList = (await (await axios.get(STCP_ENDPOINT, { params: request })).data);
-    busList = busList["records"];
+    let busList = await helpers.getLines('1');
     
     res.status(200);
     res.setHeader('Content-Type', 'application/json');
@@ -48,17 +42,13 @@ app.get('/directions/:bus', async (req, res) => {
 
 app.get('/stops/:bus', async (req, res) => {
   try {
+    let stopsResult = [];
+
     let directions = await helpers.getDirections(req.params.bus);
     directions = directions.map((value, index, array) => value.dir);
 
-    let stopsResult = [];
-
     for (const direction of directions) {
-      let request = { action: 'linestops', lcode: req.params.bus, ldir: direction };
-      
-      let stopsList = (await (await axios.get(STCP_ENDPOINT, { params: request })).data);
-      stopsList = stopsList["records"];
-
+      let stopsList = await helpers.getStops(req.params.bus, direction);
       stopsResult.push({direction, stopsList});
     }
 
@@ -74,10 +64,7 @@ app.get('/stops/:bus', async (req, res) => {
 
 app.get('/stops/:bus/:direction', async (req, res) => {
   try {
-    let request = { action: 'linestops', lcode: req.params.bus, ldir: req.params.direction };
-
-    let stopsList = (await (await axios.get(STCP_ENDPOINT, { params: request })).data);
-    stopsList = stopsList["records"];
+    let stopsList = await helpers.getStops(req.params.bus, req.params.direction);
     
     res.status(200);
     res.setHeader('Content-Type', 'application/json');
