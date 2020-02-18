@@ -34,5 +34,7 @@ module.exports.getStop = async (stopcode) => {
 
     let stopInfo = (await (await axios.get(STCP_ENDPOINT, { params: request })).data);
 
+    stopInfo.forEach(x => { x.geomdesc = JSON.parse(x.geomdesc) });
+
     return stopInfo;
 }
