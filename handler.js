@@ -76,4 +76,18 @@ app.get('/stops/:bus/:direction', async (req, res) => {
   }
 })
 
+app.get('/stop/:code', async (req, res) => {
+  try {
+    let stopInfo = await helpers.getStop(req.params.code);
+    
+    res.status(200);
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(stopInfo));
+  }
+  catch (error) {
+    res.status(500);
+    res.send(error);
+  }
+})
+
 module.exports.service = serverless(app);

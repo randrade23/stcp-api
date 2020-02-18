@@ -28,3 +28,11 @@ module.exports.getStops = async (lcode, ldir) => {
 
     return stopsList;
 }
+
+module.exports.getStop = async (stopcode) => {
+    let request = { action: 'srchstoplines', stopcode };
+
+    let stopInfo = (await (await axios.get(STCP_ENDPOINT, { params: request })).data);
+
+    return stopInfo;
+}

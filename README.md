@@ -78,3 +78,21 @@ Escrito em Node.js com Express. Pronto para deployment para AWS Lambda (com Serv
 
     [{"direction":0,"stopsList":[{"zone":"PRT3","code":"HSJ4","name":"HOSP. S. JOÃO (METRO)","address":"ALAM.HERNÂNI MONTEIRO","sequence":1},{"zone":"MAI1","code":"RCA","name":"RICARDO ALVES","address":"R.ARROTEIA","sequence":2},{"zone":"MAI1","code":"FEL1","name":"FELICIANA","address":"R.ARROTEIA","sequence":3},{"zone":"MAI1","code":"CVD1","name":"CAVADAS","address":"R.PADRE COSTA","sequence":4},{"zone":"MAI1","code":"ISCP1","name":"ISCAP","address":"R.PADRE COSTA","sequence":5}, ...]},{"direction":1,"stopsList":[{"zone":"MTS1","code":"MATM1","name":"MATOSINHOS MERCADO","address":"AV.ENG.DUARTE PACHECO","sequence":1},{"zone":"MTS1","code":"SP5","name":"S. PEDRO","address":"R.ROBERTO IVENS","sequence":2},{"zone":"MTS1","code":"PDZ3","name":"1º DE DEZEMBRO","address":"R.ROBERTO IVENS","sequence":3},{"zone":"MTS1","code":"BRTC2","name":"BRITO CAPELO","address":"R.TOMÁS RIBEIRO","sequence":4},{"zone":"MTS1","code":"PQBT4","name":"PQ BASÍLIO TELES","address":"R.TOMÁS RIBEIRO","sequence":5}, ...]}]
 
+## Informação sobre uma paragem
+
+### Request
+
+`GET /stop/:code`
+
+    curl -X GET http://localhost:8080/stop/TRD1
+
+### Response
+
+    HTTP/1.1 200 OK
+    Date: Thu, 17 Feb 2020 21:00:00 GMT
+    Status: 200 OK
+    Connection: close
+    Content-Type: application/json
+
+    [{"code":"TRD1","name":"TRINDADE","zone":"PRT1","lines":[{"accessibility":1,"code":"200","pubcode":"200","dir":1,"description":"BOLHÃO"},{"accessibility":2,"code":"202","pubcode":"202","dir":0,"description":"PASSEIO ALEGRE (VIA AV. BESSA)"},{"accessibility":1,"code":"600","pubcode":"600","dir":0,"description":"MAIA(BARCA)"},{"accessibility":1,"code":"703","pubcode":"703","dir":0,"description":"SONHOS"},{"accessibility":2,"code":"4M","pubcode":"4M","dir":0,"description":"MAIA (CÂMARA)"},{"accessibility":2,"code":"11M","pubcode":"11M","dir":1,"description":"HOSP. S. JOÃO"}],"geomdesc":"{\"type\":\"Point\",\"coordinates\":[-8.609555606679713,41.151798699855078]}","mode":1,"address":"R.TRINDADE"}]
+    
